@@ -1,0 +1,214 @@
+/* special fx */
+
+.anul-point {
+  pointer-events: none;
+}
+
+.no-deco {
+  text-decoration: none;
+}
+
+.spinner-size {
+  max-height: 1rem;
+  max-width: 1rem;
+  font-size: 0.5rem;
+  
+}
+
+
+/* Calendario */
+
+.calendario {
+  background-image: linear-gradient(to bottom right, #4b0d868a, #40cec98a);;
+}
+
+.calendar-card {
+  height: 7rem;
+  box-shadow: 0px 0px 0px #ffffff00;
+  transition: box-shadow 400ms;
+}
+
+.calendar-card:hover {
+  box-shadow: -5px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.bg-calendar{
+  background-image: linear-gradient( to bottom right, rgba(255, 0, 0, 0.685), rgba(255, 238, 0, 0.685));
+}
+
+/* Meetup */
+
+.btn-crear {
+  background-image: linear-gradient(to bottom right, rgba(76, 0, 130, 0.699), rgba(64, 224, 208, 0.699));
+}
+
+.btn-cerrar {
+  background-image: linear-gradient( to bottom right, rgba(255, 0, 0, 0.685), rgba(255, 238, 0, 0.685));
+}
+
+/* Dashboard */
+
+.bigbox {
+  height: 55rem;
+}
+
+.bigb{
+  box-shadow: 0px 0px 0px #ffffff;
+  transition: box-shadow 250ms;
+  height: 20rem;
+  margin-top: 5rem;
+  
+}
+
+.bigb:hover {
+  box-shadow: -1px 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* Navbar */
+
+.barra {
+  background-color: rgba(179, 179, 179, 0.445);
+  min-height: 3rem;
+}
+
+.logo-barra {
+  transform:translateY(30%);
+}
+
+/* Calendario */
+
+.w-icon {
+  height: 3.5rem;
+  transform: translateY(-1rem);
+}
+
+
+/*  *//* Media Queries *//*  */
+
+@media (max-width: 767px) {
+  .calendar-card {
+    min-width: 90%;
+  }
+
+  body {
+    background-image: linear-gradient(to bottom right, indigo, turquoise);
+    height: 145rem;
+  }
+  
+  .bigbox {
+    height: 40rem;
+  }
+  
+  .bigb{
+    box-shadow: 0px 0px 0px #ffffff;
+    transition: box-shadow 250ms;
+    height: 10rem;
+    margin-top: 7rem;
+  }
+
+  
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+	.calendar-card {
+    min-width: 40%;
+  }
+  
+  body {
+    background-image: linear-gradient(to bottom right, indigo, turquoise);
+    height: 83rem;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  body {
+    background-image: linear-gradient(to bottom right, indigo, turquoise);
+    height: 64rem;
+  }
+}
+
+@media tv and (min-width: 1200) {
+  body {
+    background-image: linear-gradient(to bottom right, indigo, turquoise);
+    height: 115rem;
+  }
+}
+
+/* Para el Surface Pro 7 */
+@media (min-width: 768px) and (max-width: 1199px) and (min-height: 1300px) {
+  .calendar-card {
+    width: 40%;
+  }
+  
+  body {
+    background-image: linear-gradient(to bottom right, indigo, turquoise);
+    height: 85.5rem;
+  }
+}
+
+/* Para el Surface Duo */
+
+@media (width: 540px) and (height: 720px) {
+  .bigbox {
+    height: 41rem;
+  }
+  
+  .bigb{
+    box-shadow: 0px 0px 0px #ffffff;
+    transition: box-shadow 250ms;
+    height: 10rem;
+    margin-top: 7rem;
+    max-width: 20rem;
+  }
+
+  .home-button {
+    transform: translateY(0.75rem);
+  }
+}
+
+/* Para el Galaxy Fold */
+
+@media (max-width: 344px)  {
+  .bigbox {
+    height: 40rem;
+  }
+  
+  .bigb{
+    box-shadow: 0px 0px 0px #ffffff;
+    transition: box-shadow 250ms;
+    height: 10rem;
+    margin-top: 7rem;
+    min-width: 100rem;
+  }
+  
+
+  .dash-title {
+    font-size: 1.2rem;
+  }
+
+  .dash-p {
+    font-size: .9rem;
+  }
+
+  .home-button {
+    transform: translateY(0.68rem);
+  }
+}
+
+/* para 412 y 414 dashboard */
+
+@media (width: 412px) {
+  .home-button {
+    transform: translateY(0.68rem);
+  }
+}
+
+
+@media (width: 414px) {
+  .home-button {
+    transform: translateY(0.68rem);
+  }
+}
+
