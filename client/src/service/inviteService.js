@@ -32,3 +32,12 @@ export const editInvite = async (body, id) => {
 		console.error(err);
 	}
 };
+
+export const deleteInvite = async id => {
+	try {
+		const res = axios.delete(`/api/invite/${id}`, config);
+		return res;
+	} catch (err) {
+		console.error(err);
+	}
+};

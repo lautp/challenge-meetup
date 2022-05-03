@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+
 import personPlus from '../../../node_modules/bootstrap-icons/icons/person-plus.svg';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -8,7 +9,11 @@ import {
 	deleteMeetup,
 	getUsuarios,
 } from '../../service/meetupService';
-import { editInvite } from '../../service/inviteService';
+import {
+	editInvite,
+	deleteInvite,
+	getInvites,
+} from '../../service/inviteService';
 import { getWeather } from '../../service/calendarService';
 import MainContext from '../../context/main/mainContext';
 
@@ -27,8 +32,6 @@ const MeetupForm = () => {
 		'Sabado',
 	];
 
-	let first = true;
-
 	let checkname = [];
 
 	const [tiempo, setTiempo] = useState(['']);
@@ -42,9 +45,11 @@ const MeetupForm = () => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [asked, setAsked] = useState([]);
+	const [selUser, setSeluser] = useState({});
+	const [users, setUsers] = useState([]);
 
 	const mainContext = useContext(MainContext);
-	const { invited } = mainContext;
+	const { invited, getInvited, getCurrentInvId, currentinvid } = mainContext;
 
 	const navigate = useNavigate();
 
@@ -55,6 +60,9 @@ const MeetupForm = () => {
 			res.data.map(mt => {
 				setMeet([...meet, mt]);
 			});
+		});
+		await getInvites().then(res => {
+			getInvited(res.data);
 		});
 	};
 
@@ -69,31 +77,25 @@ const MeetupForm = () => {
 		document.querySelector('.invited-value').value = 0;
 	};
 
+	const getId = e => {
+		invited.map(inv => {
+			if (inv.day === e.target.value) {
+				getCurrentInvId(inv._id);
+			}
+		});
+	};
+
 	useEffect(() => {
 		pgCargada();
 	}, []);
 
-	const handleFecha = e => {
-		reset();
-		checkDelete(e);
-		setShowAlert(false);
-		setInviteds([]);
-		setAsked([]);
-		setFecha(e.target.value);
-		gettingMeetup(e);
-		checkInvited(e);
-	};
-
 	const checkInvited = e => {
 		invited.map(invs => {
 			if (invs.day === e.target.value) {
-				invs.invi.map(nv => {
-					people.map(p => {
-						if (p.name === nv.name) {
-							setAsked([...asked, p.name]);
-						}
-					});
+				const names = invs.invi.map(nv => {
+					return nv.name;
 				});
+				setAsked(names);
 			}
 		});
 	};
@@ -117,6 +119,27 @@ const MeetupForm = () => {
 		});
 	};
 
+	const delSelect = e => {
+		setDelSel(e.target.value);
+	};
+
+	const handleQuitar = e => {
+		e.preventDefault();
+		successmsg = `Se quito a ${delSel} de la meetup`;
+		setShowSuccess(true);
+		const result = inviteds.filter(sel => sel !== delSel);
+		setInviteds(result);
+		editInvite({ invi: result, day: fecha }, currentinvid);
+		reset();
+		setTimeout(() => {
+			setShowSuccess(false);
+		}, 2500);
+	};
+
+	const inviteValue = e => {
+		setInvite(e.target.value);
+	};
+
 	const onInvite = e => {
 		e.preventDefault();
 		setInviteds([...inviteds, invite]);
@@ -129,8 +152,16 @@ const MeetupForm = () => {
 		reset();
 	};
 
-	const inviteValue = e => {
-		setInvite(e.target.value);
+	const handleFecha = e => {
+		getId(e);
+		setInviteds([]);
+		setAsked([]);
+		reset();
+		checkDelete(e);
+		setShowAlert(false);
+		setFecha(e.target.value);
+		gettingMeetup(e);
+		checkInvited(e);
 	};
 
 	const handleSubmit = e => {
@@ -177,13 +208,6 @@ const MeetupForm = () => {
 		e.preventDefault();
 	};
 
-	const handleClose = e => {
-		e.preventDefault();
-		first = true;
-		setShowAlert(false);
-		navigate('/dashboard');
-	};
-
 	const handleDelete = e => {
 		e.preventDefault();
 		meet.map(async mt => {
@@ -195,8 +219,10 @@ const MeetupForm = () => {
 						setMeet([...meet, mt]);
 					});
 				});
+				deleteInvite(currentinvid);
 				successmsg = `Se borro la meetup con exito`;
 				setShowSuccess(true);
+				getCurrentInvId('');
 				setTimeout(() => {
 					setShowSuccess(false);
 				}, 2500);
@@ -207,20 +233,13 @@ const MeetupForm = () => {
 		});
 	};
 
-	const delSelect = e => {
-		setDelSel(e.target.value);
-	};
-
-	const handleQuitar = e => {
+	const handleClose = e => {
+		setMeet([]);
+		getCurrentInvId('');
+		setFecha('');
 		e.preventDefault();
-		successmsg = `Se quito a ${delSel} de la meetup`;
-		setShowSuccess(true);
-		const result = inviteds.filter(sel => sel !== delSel);
-		setInviteds(result);
-		reset();
-		setTimeout(() => {
-			setShowSuccess(false);
-		}, 2500);
+		setShowAlert(false);
+		navigate('/dashboard');
 	};
 
 	return (
@@ -266,7 +285,7 @@ const MeetupForm = () => {
 							id=""
 							className="form-control invite-value"
 							onChange={inviteValue}>
-							<option value="0">Elegir gente</option>
+							<option value={0}>Elegir gente</option>
 							{people.map((gente, id) => {
 								checkname = inviteds.filter(nv => nv === gente.name);
 								if (checkname[0] === gente.name) {
@@ -301,7 +320,7 @@ const MeetupForm = () => {
 							id=""
 							className="form-control invited-value"
 							onChange={delSelect}>
-							<option value="0">
+							<option value={0}>
 								{inviteds.length >= 1 ? 'Editar Lista' : 'Lista vacia'}
 							</option>
 							{inviteds.map((invi, id) => {

@@ -48,7 +48,7 @@ router.post('/', auth, async (req, res) => {
 	}
 });
 
-// @route   PUT    api/api/:id
+// @route   PUT    api/invite/:id
 // @desc    Actualiza Invites
 // @acceso  Privado
 router.put('/:id', auth, async (req, res) => {
@@ -74,6 +74,26 @@ router.put('/:id', auth, async (req, res) => {
 		res.json(invite);
 	} catch (err) {
 		console.error(err.msg);
+		res.status(500).send('server error');
+	}
+});
+
+// @ruta    DELETE    api/invite/:id
+// @desc    Borra invites
+// @acceso  Privado
+router.delete('/:id', auth, async (req, res) => {
+	try {
+		let invite = await Invite.findById(req.params.id);
+
+		if (!invite) return res.status(404).json({ msg: 'Meetup not found' });
+
+		await Invite.findByIdAndRemove(req.params.id);
+
+		res.json({
+			msg: 'Invite removed',
+		});
+	} catch (err) {
+		console.error(err.message);
 		res.status(500).send('server error');
 	}
 });

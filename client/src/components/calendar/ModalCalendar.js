@@ -21,6 +21,7 @@ const ModalCalendar = () => {
 		checkinvite,
 		checkInvite,
 		getInvited,
+		passDate,
 	} = mainContext;
 	const authContext = useContext(AuthContext);
 	const { user } = authContext;
@@ -28,6 +29,7 @@ const ModalCalendar = () => {
 	const handleClose = async () => {
 		getCurrentInv([]);
 		getCurrentInvId('');
+		passDate('');
 		await getInvites().then(res => {
 			getInvited(res.data);
 		});

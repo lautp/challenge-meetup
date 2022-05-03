@@ -85,7 +85,7 @@ router.put('/:id', auth, async (req, res) => {
 
 // @ruta    DELETE    api/meetup/:id
 // @desc    Borra una meetup
-// @acceso  Publico
+// @acceso  Privado
 router.delete('/:id', auth, async (req, res) => {
 	try {
 		let meetup = await Meetup.findById(req.params.id);
