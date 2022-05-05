@@ -321,7 +321,7 @@ const MeetupForm = () => {
 							className="form-control invited-value"
 							onChange={delSelect}>
 							<option value={0}>
-								{inviteds.length >= 1 ? 'Editar Lista' : 'Lista vacia'}
+								{inviteds.length >= 1 ? 'Editar lista' : 'Lista vacia'}
 							</option>
 							{inviteds.map((invi, id) => {
 								return (

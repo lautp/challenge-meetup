@@ -3,7 +3,8 @@ import { Modal, Button } from 'react-bootstrap';
 import { getInvites } from '../../service/inviteService';
 import MainContext from '../../context/main/mainContext';
 import AuthContext from '../../context/auth/authContext';
-
+import grouchoparty from '../../img/groucho-party.png';
+import elmoparty from '../../img/elmo-party.png';
 import { postInvite, editInvite } from '../../service/inviteService';
 
 const ModalCalendar = () => {
@@ -78,11 +79,20 @@ const ModalCalendar = () => {
 							</div>
 						</div>
 					) : (
-						<h4>
-							{checkinvite
-								? 'Ya te inscribiste, estamos esperando que te confirmen'
-								: 'Invitacion confirmada!'}
-						</h4>
+						<>
+							<h4 className="d-flex justify-content-center">
+								{checkinvite
+									? `Ya te inscribiste, estamos esperando que te confirmen`
+									: `Invitacion confirmada!`}
+							</h4>
+							<div className="d-flex justify-content-center">
+								<img
+									src={checkinvite ? grouchoparty : elmoparty}
+									alt="imagen fiesta"
+									className="img-fiesta"
+								/>
+							</div>
+						</>
 					)}
 					<div className="d-flex justify-content-end">
 						<Button

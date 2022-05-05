@@ -9,6 +9,7 @@ import UserDashForm from './components/user/UserDashForm';
 import BirraForm from './components/birra/BirraForm';
 import PrivateOutlet from './components/routing/PrivateOutlet';
 import AuthContext from './context/auth/authContext';
+import NotFound from './components/common/NotFound';
 
 let first = true;
 
@@ -26,6 +27,7 @@ function App() {
 		<div className="App">
 			<Navbar />
 			<Routes>
+				<Route path="*" element={<NotFound />} />
 				<Route path="/" element={<Calendar />} />
 				<Route path="/" element={<PrivateOutlet />}>
 					<Route path="/birra" element={<BirraForm />} />
